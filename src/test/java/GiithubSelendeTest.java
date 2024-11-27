@@ -13,7 +13,7 @@ public class GiithubSelendeTest {
     @BeforeAll
     static void BeforeAll(){
         Configuration.pageLoadStrategy = "eager";
-        Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = false;
     }
 
     @Test
@@ -21,8 +21,11 @@ public class GiithubSelendeTest {
         open("https://github.com/selenide/selenide");
 
         $("#wiki-tab").click();
-        //$$("ul[data-filterable-for=wiki-pages-filter] li").findBy(text("SoftAssertions")).click();
-        $$(".list-style-none li").findBy(text("SoftAssertions")).click();
+        $(".wiki-more-pages-link").$("button").click();
+        $("[class=' js-wiki-sidebar-toggle-display']").find(byText("SoftAssertions")).click();
+        $$("div.markdown-heading").findBy(text("Using JUnit5 extend test class:")).sibling(0)
+                .shouldHave(text("SoftAssertsExtension"));   //на мой взгляд в данном задании приоритетным было посмотреть,
+                                                             //что именно после заголовка JUnit5 идёт пример с этим кодом
     }
 
 }
